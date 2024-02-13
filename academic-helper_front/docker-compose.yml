@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  bun:
+    image: oven/bun:latest
+    command: ["bun", "dev", "--host", "0.0.0.0"]
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
