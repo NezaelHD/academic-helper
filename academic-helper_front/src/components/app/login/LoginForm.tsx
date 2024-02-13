@@ -5,6 +5,7 @@ import { Icons } from "@/components/icons"
 import {Button} from "@/components/ui/button.tsx";
 import {Label} from "@/components/ui/label.tsx";
 import {Input} from "@/components/ui/input.tsx";
+import instance from "@/lib/axios.ts";
 
 
 interface AuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -24,10 +25,13 @@ export function LoginForm({ className, ...props }: AuthFormProps) {
     async function onSubmit(event: React.SyntheticEvent) {
         event.preventDefault()
         setIsLoading(true)
-
-        setTimeout(() => {
+        instance.post('/auth/login', {
+            username: email,
+            password: password
+        }).then((response) => {
+            console.log(response);
             setIsLoading(false)
-        }, 3000)
+        });
     }
 
     const onEmailLogin = function() {

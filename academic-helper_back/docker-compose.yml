@@ -1,0 +1,21 @@
+version: '3.9'
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+    entrypoint: []
+    command: "/bin/sh -c 'bun install && bunx prisma db push && bun run --watch src/index.ts'"
+    ports: ["3000:3000"]
+    volumes: ["./:/home/bun/app"]
+    depends_on: ["db"]
+    env_file:
+      - .env
+  db:
+    image: postgres:14.3-alpine
+    restart: on-failure
+    ports:
+      - "5432:5432"
+    environment:
+      - "POSTGRES_PASSWORD=mysecretpassword"
+    volumes:
+      - ./.docker/postgres:/var/lib/postgresql/data

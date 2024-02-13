@@ -6,19 +6,51 @@ import {Button} from "@/components/ui/button.tsx";
 import {Label} from "@/components/ui/label.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group.tsx";
+import instance from "@/lib/axios.ts";
 
 interface AuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function RegisterForm({ className, ...props }: AuthFormProps) {
-    const [isLoading, setIsLoading] = React.useState<boolean>(false)
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [username, setUsername] = React.useState<string>("");
+    const [email, setEmail] = React.useState<string>("");
+    const [password, setPassword] = React.useState<string>("");
+    const [confirm, setConfirm] = React.useState<string>("");
+    const [role, setRole] = React.useState<string>("student");
+
+    const handleUsernameChange = function(e) {
+        setUsername(e.target.value);
+    }
+    const handleEmailChange = function(e) {
+        setEmail(e.target.value);
+    }
+    const handlePasswordChange = function(e) {
+        setPassword(e.target.value);
+    }
+    const handleConfirmChange = function(e) {
+        setConfirm(e.target.value);
+    }
+    const handleRoleChange = function(e) {
+        setRole(e.target.value);
+    }
 
     async function onSubmit(event: React.SyntheticEvent) {
         event.preventDefault()
         setIsLoading(true)
 
-        setTimeout(() => {
-            setIsLoading(false)
-        }, 3000)
+        console.log(username, email, password, confirm, role)
+
+        await instance.post("/auth/signup", {
+            username: username,
+            email: email,
+            password: password,
+            role: role
+        }).then((response) => {
+            console.log(response)
+            setIsLoading(false);
+        }).catch((error) => {
+            console.log(error)
+        })
     }
 
     return (
@@ -36,6 +68,8 @@ export function RegisterForm({ className, ...props }: AuthFormProps) {
                             autoCapitalize="none"
                             autoCorrect="off"
                             disabled={isLoading}
+                            value={username}
+                            onChange={handleUsernameChange}
                         />
                     </div>
                     <div className="grid gap-1">
@@ -50,6 +84,8 @@ export function RegisterForm({ className, ...props }: AuthFormProps) {
                             autoComplete="email"
                             autoCorrect="off"
                             disabled={isLoading}
+                            value={email}
+                            onChange={handleEmailChange}
                         />
                     </div>
                     <div className="grid gap-1">
@@ -63,6 +99,8 @@ export function RegisterForm({ className, ...props }: AuthFormProps) {
                             autoCapitalize="none"
                             autoCorrect="off"
                             disabled={isLoading}
+                            value={password}
+                            onChange={handlePasswordChange}
                         />
                     </div>
                     <div className="grid gap-1">
@@ -76,10 +114,12 @@ export function RegisterForm({ className, ...props }: AuthFormProps) {
                             autoCapitalize="none"
                             autoCorrect="off"
                             disabled={isLoading}
+                            value={confirm}
+                            onChange={handleConfirmChange}
                         />
                     </div>
                     <div className="grid gap-1">
-                        <RadioGroup defaultValue="student">
+                        <RadioGroup defaultValue="student" onChange={handleRoleChange} value={role}>
                             <div className="flex items-center space-x-2">
                                 <RadioGroupItem value="student" id="r1"/>
                                 <Label htmlFor="r1">Étudiant</Label>

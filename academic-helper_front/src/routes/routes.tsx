@@ -1,6 +1,6 @@
 import {Home} from "@/pages/Home";
-import LoginPage from "@/components/app/login/Login.tsx";
-import RegisterPage from "@/components/app/register/Register.tsx";
+import LoginPage from "@/pages/Login.tsx";
+import RegisterPage from "@/pages/Register.tsx";
 
 export const appRoutes = [
     {
