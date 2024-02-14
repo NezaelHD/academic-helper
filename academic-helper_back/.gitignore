@@ -44,3 +44,9 @@ yarn-error.log*
 **/*.log
 package-lock.json
 **/*.bun
+
+#prisma
+prisma/generated
+
+#docker
+.docker

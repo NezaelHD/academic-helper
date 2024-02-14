@@ -9,7 +9,7 @@ export const auth = (app: Elysia) =>
 			.post(
 				"/signup",
 				async ({ body, set }) => {
-					const { email, name, password, username, role  } = body;
+					const { email, password, username, role  } = body;
 					// validate duplicate email address
 					const emailExists = await prisma.user.findUnique({
 						where: {
@@ -54,7 +54,6 @@ export const auth = (app: Elysia) =>
 
 					const newUser = await prisma.user.create({
 						data: {
-							name,
 							email,
 							hash,
 							salt,
@@ -80,7 +79,6 @@ export const auth = (app: Elysia) =>
 				},
 				{
 					body: t.Object({
-						name: t.String(),
 						email: t.String(),
 						username: t.String(),
 						password: t.String(),
