@@ -1,35 +1,18 @@
-import {
-    NavigationMenu,
-    NavigationMenuItem, NavigationMenuLink,
-    NavigationMenuList,
-} from "@/components/ui/navigation-menu.tsx";
-import {ThemeToggle} from "@/components/ui/theme-toggle.tsx";
+import { NavigationMenu } from "@/components/ui/navigation-menu.tsx";
 import * as React from "react";
-import {Link} from "react-router-dom";
-import {Button} from "@/components/ui/button.tsx";
+import {LoggedMenu} from "@/components/app/LoggedMenu.tsx";
+import {InitialMenu} from "@/components/InitialMenu.tsx";
+import {useContext} from "react";
+import AuthContext from "@/components/shared/AuthContext.tsx";
+
 export function NavigationBar() {
+    const { user } = useContext(AuthContext);
+
     return (
         <header>
             <NavigationMenu>
-                <NavigationMenuList className="flex gap-4">
-                    <NavigationMenuItem>
-                        <Button asChild className="rounded-full font-semibold text-white">
-                            <Link to="/sign-in">
-                                Sign In
-                            </Link>
-                        </Button>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <Button asChild className="rounded-full font-semibold text-white">
-                            <Link to="/sign-up">
-                                Sign Up
-                            </Link>
-                        </Button>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <ThemeToggle></ThemeToggle>
-                    </NavigationMenuItem>
-                </NavigationMenuList>
+                { !user && <InitialMenu/>}
+                {user && <LoggedMenu/>}
             </NavigationMenu>
         </header>
     )

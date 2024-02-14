@@ -1,6 +1,7 @@
 import {Home} from "@/pages/Home";
 import LoginPage from "@/pages/Login.tsx";
 import RegisterPage from "@/pages/Register.tsx";
+import ChatPage from "@/pages/Chat.tsx";
 
 export const appRoutes = [
     {
@@ -14,5 +15,9 @@ export const appRoutes = [
     {
         path: "/sign-up",
         element: <RegisterPage/>
+    },
+    {
+        path: "/chat",
+        element: <ChatPage/>
     }
 ]

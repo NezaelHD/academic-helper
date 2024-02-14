@@ -5,8 +5,8 @@ import { Icons } from "@/components/icons"
 import {Button} from "@/components/ui/button.tsx";
 import {Label} from "@/components/ui/label.tsx";
 import {Input} from "@/components/ui/input.tsx";
-import instance from "@/lib/axios.ts";
-
+import AuthContext from "@/components/shared/AuthContext.tsx";
+import {useContext} from "react";
 
 interface AuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -15,6 +15,8 @@ export function LoginForm({ className, ...props }: AuthFormProps) {
     const [isEmailLogin, setIsEmailLogin] = React.useState<boolean>(false)
     const [email, setEmail] = React.useState<string>("")
     const [password, setPassword] = React.useState<string>("")
+    const { login } = useContext(AuthContext);
+
 
     const handleEmailChange =  function(e) {
         setEmail(e.target.value);
@@ -25,10 +27,13 @@ export function LoginForm({ className, ...props }: AuthFormProps) {
     async function onSubmit(event: React.SyntheticEvent) {
         event.preventDefault()
         setIsLoading(true)
-        instance.post('/auth/login', {
+
+        let payload = {
             username: email,
             password: password
-        }).then((response) => {
+        }
+
+        await login(payload).then((response) => {
             console.log(response);
             setIsLoading(false)
         });

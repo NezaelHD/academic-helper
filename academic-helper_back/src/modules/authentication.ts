@@ -106,6 +106,9 @@ export const auth = (app: Elysia) =>
 							id: true,
 							hash: true,
 							salt: true,
+							email: true,
+							username: true,
+							profileImage: true,
 						},
 					});
 
@@ -141,9 +144,19 @@ export const auth = (app: Elysia) =>
 						path: "/",
 					});
 
+					let userToStore;
+					if (user) {
+						userToStore = {
+							id: user.id,
+							email: user.email,
+							username: user.username,
+							profileImage: user.profileImage,
+						};
+					}
+
 					return {
 						success: true,
-						data: null,
+						data: userToStore,
 						message: "Account login successfully",
 					};
 				},
