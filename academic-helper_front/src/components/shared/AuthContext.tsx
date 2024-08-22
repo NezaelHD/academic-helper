@@ -18,7 +18,7 @@ export const AuthContextProvider = ({ children }) => {
         let apiResponse = await instance.post("/auth/login", payload);
         localStorage.setItem("userProfile", JSON.stringify(apiResponse.data.data));
         setUser(apiResponse.data.data);
-        navigate("/home");
+        navigate("/chat");
     };
     return (
         <>

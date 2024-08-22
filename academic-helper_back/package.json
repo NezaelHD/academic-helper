@@ -9,8 +9,11 @@
     "@elysiajs/cookie": "^0.8.0",
     "@elysiajs/cors": "^0.8.0",
     "@elysiajs/jwt": "^0.8.0",
+    "@elysiajs/swagger": "^1.0.3",
     "@prisma/client": "^5.8.1",
-    "elysia": "latest"
+    "axios": "latest",
+    "elysia": "latest",
+    "openai": "^4.33.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.5.3",

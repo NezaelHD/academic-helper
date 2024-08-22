@@ -1,8 +1,7 @@
 version: '3.9'
 services:
   app:
-    build:
-      dockerfile: Dockerfile
+    image: "oven/bun"
     entrypoint: []
     command: "/bin/sh -c 'bun install && bunx prisma db push && bun run --watch src/index.ts'"
     ports: ["3000:3000"]

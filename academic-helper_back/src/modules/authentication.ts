@@ -28,26 +28,6 @@ export const auth = (app: Elysia) =>
 						};
 					}
 
-					// validate duplicate username
-					const usernameExists = await prisma.user.findUnique({
-						where: {
-							username,
-						},
-						select: {
-							id: true,
-						},
-					});
-
-					if (usernameExists) {
-						set.status = 400;
-						return {
-							success: false,
-							data: null,
-							message: "Someone already taken this username.",
-						};
-					}
-
-					// handle password
 					const { hash, salt } = await hashPassword(password);
 					const emailHash = md5hash(email);
 					const profileImage = `https://robohash.org/${emailHash}.png?set=set2 `;

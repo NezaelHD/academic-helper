@@ -1,45 +1,44 @@
 "use client"
-import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip.tsx"
 import {Link} from "react-router-dom";
 import {cn} from "@/lib/utils.ts";
-import {buttonVariants} from "@/components/ui/button.tsx";
+import {Button, buttonVariants} from "@/components/ui/button.tsx";
+import {ConversationDTO} from "@/components/DTO/ConversationDTO.ts";
+import instance from "@/lib/axios.ts";
+import {TrashIcon} from "@radix-ui/react-icons";
 
-interface NavProps {
-    isCollapsed: boolean
-    links: {
-        title: string
-        label?: string
-        variant: "default" | "ghost"
-    }[]
-}
+export function Nav({conversations, fetchMessages, deleteConversation}: ConversationDTO[]) {
 
-export function Nav({links}: NavProps) {
+    const removeConversation = (conversationId: number) => {
+        instance.delete(`/conversations/${conversationId}`)
+            .then((res) => {
+                deleteConversation(conversationId);
+            }).catch((err) => {
+            console.log(err);
+        });
+    }
+
     return (
         <div
             className="group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2"
         >
             <nav
                 className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
-                {links.map((link, index) =>
+                {conversations.map((conversation, index) =>
                     <Link
-                        to="#"
+                        to=""
+                        key={index}
+                        onClick={() => fetchMessages(conversation.id)}
                         className={cn(
-                            buttonVariants({variant: link.variant, size: "sm"}),
-                            link.variant === "default" &&
+                            buttonVariants({variant: conversation.variant, size: "sm"}),
+                            !conversation.active &&
                             "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
-                            "justify-start"
+                            "justify-between"
                         )}
                     >
-                        {link.title}
-                        <span
-                            className={cn(
-                                "ml-auto",
-                                link.variant === "default" &&
-                                "text-background dark:text-white"
-                            )}
-                        >
-                              {link.label}
-                            </span>
+                        {conversation.name}
+                        <Button variant="ghost" size="icon" onClick={() => removeConversation(conversation.id)}>
+                            <TrashIcon className="h-4 w-4" />
+                        </Button>
                     </Link>
                 )}
             </nav>

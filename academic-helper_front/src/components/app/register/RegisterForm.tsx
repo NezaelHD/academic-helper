@@ -37,9 +37,6 @@ export function RegisterForm({ className, ...props }: AuthFormProps) {
     async function onSubmit(event: React.SyntheticEvent) {
         event.preventDefault()
         setIsLoading(true)
-
-        console.log(username, email, password, confirm, role)
-
         await instance.post("/auth/signup", {
             username: username,
             email: email,
@@ -119,7 +116,7 @@ export function RegisterForm({ className, ...props }: AuthFormProps) {
                         />
                     </div>
                     <div className="grid gap-1">
-                        <RadioGroup defaultValue="student" onChange={handleRoleChange} value={role}>
+                        <RadioGroup onChange={handleRoleChange} value={role}>
                             <div className="flex items-center space-x-2">
                                 <RadioGroupItem value="student" id="r1"/>
                                 <Label htmlFor="r1">Étudiant</Label>

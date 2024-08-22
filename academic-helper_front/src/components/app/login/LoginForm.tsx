@@ -34,7 +34,6 @@ export function LoginForm({ className, ...props }: AuthFormProps) {
         }
 
         await login(payload).then((response) => {
-            console.log(response);
             setIsLoading(false)
         });
     }
